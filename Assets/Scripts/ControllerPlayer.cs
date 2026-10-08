@@ -33,12 +33,12 @@ public class ControllerPlayer : Controller
         if(Keyboard.current[rotateRight].isPressed)
         {
             // Rotates Right
-            pawn.Rotate(1);
+            pawn.Rotate(-1);
         }
         if(Keyboard.current[rotateLeft].isPressed)
         {
             // Rotates Left
-            pawn.Rotate(-1);
+            pawn.Rotate(1);
         }
 
     }
