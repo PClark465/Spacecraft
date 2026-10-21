@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Health : MonoBehaviour
 {
@@ -31,7 +30,7 @@ public class Health : MonoBehaviour
         }
     }
 
-// Function for death of character
+    // Function for death of character
     public void Die()
     {
         Debug.Log("Try again.");

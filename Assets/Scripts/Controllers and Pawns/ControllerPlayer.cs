@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 // Sub class for the Controller class
 public class ControllerPlayer : Controller
 {
-    // Declare Keys for the Update process for movement
+    // Declare Keys for the Update process for movement and shooting
     public Key moveForwardLocal;
     public Key moveBackwardLocal;
     public Key rotateRightLocal;
@@ -18,6 +18,8 @@ public class ControllerPlayer : Controller
     public Key moveLeftWorld;
 
     public Key turboKey;
+
+    public Key shootKey;
     
     // Start is called once before the first execution of Update after Controller is created
     void Start()
@@ -30,6 +32,7 @@ public class ControllerPlayer : Controller
     {
         // All if statements below take into account keyboard key and what movement needs to be executed
         // Local Space
+        // ADD: Null check
         if(Keyboard.current[turboKey].isPressed)
         {
             if(Keyboard.current[moveForwardLocal].isPressed)
@@ -94,6 +97,12 @@ public class ControllerPlayer : Controller
         if(Keyboard.current[teleportKey].isPressed)
         {
             pawn.Teleport();
+        }
+
+        // Shooting key
+        if(Keyboard.current[shootKey].isPressed)
+        {
+            pawn.Shoot();
         }
 
     }

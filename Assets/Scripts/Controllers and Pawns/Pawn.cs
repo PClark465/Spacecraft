@@ -12,6 +12,7 @@ public abstract class Pawn : MonoBehaviour
     public abstract void Rotate(float angle);
     public abstract void Teleport();
     public abstract void TurboMove(Vector3 moveVector);
+    public abstract void Shoot();
 }
 // Remove Start and Update since this code will be the parent class
 

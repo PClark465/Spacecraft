@@ -30,7 +30,7 @@ public class DamageOnOverlap : MonoBehaviour
             // Tell health component to take damage
             otherHealth.TakeDamage( damageDone );
         }
-
+        // FIGURE OUT WHY BULLETS WON'T DO DAMAGE
     }
 }
 
@@ -40,4 +40,20 @@ public class DamageOnOverlap : MonoBehaviour
         - Use in personal projects
 
     Health otherHealth = otherCollider.gameObject.GetComponent<Health>(); shorthand version
+*/
+
+/*
+    public bool isInstakill;
+    if(otherHealth != null)
+        {
+            if(isInstakill)
+            {
+                otherHealth.TakeDamamge(otherHealth.maxHealth);
+            }
+            else
+            {
+                // Tell health component to take damage
+                otherHealth.TakeDamage( damageDone );
+            }
+        }
 */

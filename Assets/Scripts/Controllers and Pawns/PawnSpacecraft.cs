@@ -9,11 +9,14 @@ public class PawnSpacecraft : Pawn
     public float turboMoveSpeed = 6;
     public float turnSpeed = 180;
 
+    // Variable for shooting
+    private Shooter shootBullet;
+
     
     // Start is called once before the first execution of Update after Pawn is created
     void Start()
     {
-        
+        shootBullet = GetComponent<Shooter>();
     }
 
     // Update is called once per frame
@@ -39,10 +42,20 @@ public class PawnSpacecraft : Pawn
     {
         transform.position += moveVector * turboMoveSpeed * Time.deltaTime;       // Turbo key is pressed
     }
-    //Override for putting spacecraft into a random position
+
+    // Override for putting spacecraft into a random position
     public override void Teleport ()
     {
         transform.position = new Vector3(Random.Range(1, 5), Random.Range(1, 5), 0);
+    }
+
+    // Override for when the spacecraft shoots
+    public override void Shoot ()
+    {
+        if(shootBullet != null)
+        {
+            shootBullet.Shoot();
+        }
     }
 }
 
