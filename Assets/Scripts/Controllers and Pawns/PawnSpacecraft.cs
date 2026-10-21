@@ -6,7 +6,9 @@ public class PawnSpacecraft : Pawn
 {
     // Variables of speed that affect movement and turning, use these values as default for now
     public float moveSpeed = 3;
+    public float turboMoveSpeed = 6;
     public float turnSpeed = 180;
+
     
     // Start is called once before the first execution of Update after Pawn is created
     void Start()
@@ -30,6 +32,17 @@ public class PawnSpacecraft : Pawn
     public override void Rotate (float angle)   // Floating point value for the angle, adds 'angle' and stores it
     {
         transform.Rotate (0,0,angle * turnSpeed * Time.deltaTime);       // Rotates based on the angle, Z-axis only
+    }
+
+    // Overrides movespeed based on turbo button being pressed
+    public override void TurboMove (Vector3 moveVector)
+    {
+        transform.position += moveVector * turboMoveSpeed * Time.deltaTime;       // Turbo key is pressed
+    }
+    //Override for putting spacecraft into a random position
+    public override void Teleport ()
+    {
+        transform.position = new Vector3(Random.Range(1, 5), Random.Range(1, 5), 0);
     }
 }
 

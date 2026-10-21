@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 // Super class of Controllers
 public abstract class Controller : MonoBehaviour
