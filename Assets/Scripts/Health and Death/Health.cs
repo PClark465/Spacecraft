@@ -33,7 +33,12 @@ public class Health : MonoBehaviour
     // Function for death of character
     public void Die()
     {
-        Debug.Log("Try again.");
+        Death deathComponent = GetComponent<Death>();  // Get the death  (or child of death) component into a variable
+        if (deathComponent != null) // If that component exists
+        {
+            // Tell that component to call IT'S Die function
+            deathComponent.Die();
+        }
     }
 }
 

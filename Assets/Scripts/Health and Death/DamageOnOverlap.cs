@@ -30,7 +30,7 @@ public class DamageOnOverlap : MonoBehaviour
             // Tell health component to take damage
             otherHealth.TakeDamage( damageDone );
         }
-        // FIGURE OUT WHY BULLETS WON'T DO DAMAGE
+        // FIGURE OUT WHY BULLETS WON'T DO DAMAGE - Resolved
     }
 }
 

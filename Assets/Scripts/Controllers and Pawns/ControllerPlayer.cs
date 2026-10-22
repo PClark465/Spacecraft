@@ -94,13 +94,13 @@ public class ControllerPlayer : Controller
         }
 
         // Teleport key
-        if(Keyboard.current[teleportKey].isPressed)
+        if(Keyboard.current[teleportKey].wasPressedThisFrame)
         {
             pawn.Teleport();
         }
 
         // Shooting key
-        if(Keyboard.current[shootKey].isPressed)
+        if(Keyboard.current[shootKey].wasPressedThisFrame)
         {
             pawn.Shoot();
         }
@@ -120,3 +120,5 @@ public class ControllerPlayer : Controller
 /*
     To change the movement speed, incorporate Time.deltaTime
 */
+
+// Normalize World movement vectors

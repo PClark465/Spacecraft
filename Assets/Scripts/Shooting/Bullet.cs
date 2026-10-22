@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Get both transform and rigidbody components to check if they exist, fire bullet with a specific amount of speed if true
         rb = GetComponent<Rigidbody2D>();
         tf = GetComponent<Transform>();
         if(rb != null && tf != null)
@@ -26,4 +27,5 @@ public class Bullet : MonoBehaviour
     {
         
     }
+
 }

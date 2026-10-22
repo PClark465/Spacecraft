@@ -186,4 +186,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
   fireForce: 550
-  lifetime: 4
+  lifetime: 2

@@ -7,14 +7,16 @@ public class GameManager : MonoBehaviour
 
     public List<Obstacle> obstacleList;
 
+    private bool hasLogged = false;
+
     void Awake ()
     {
         obstacleList = new List<Obstacle>();
         
         if(instance == null)
         {
-        instance = this;
-        DontDestroyOnLoad(gameObject);  // Prevents the game manager object from being destroyed
+            instance = this;
+            DontDestroyOnLoad(gameObject);  // Prevents the game manager object from being destroyed
         }
         else 
         {
@@ -33,11 +35,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(obstacleList != null)
+       if(obstacleList != null)
         {
-            if(obstacleList.Count <= 0)
+            if(obstacleList.Count <= 0 && !hasLogged)
             {
                 Debug.Log("Victory");
+                hasLogged = true;
             }
         }
     }

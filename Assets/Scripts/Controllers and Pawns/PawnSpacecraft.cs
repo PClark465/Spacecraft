@@ -5,9 +5,14 @@ using UnityEngine.InputSystem;
 public class PawnSpacecraft : Pawn
 {
     // Variables of speed that affect movement and turning, use these values as default for now
-    public float moveSpeed = 3;
-    public float turboMoveSpeed = 6;
-    public float turnSpeed = 180;
+    public float moveSpeed;
+    public float turboMoveSpeed;
+    public float turnSpeed;
+
+    public float minX;
+    public float maxX;
+    public float minY;
+    public float maxY;
 
     // Variable for shooting
     private Shooter shootBullet;
@@ -46,7 +51,7 @@ public class PawnSpacecraft : Pawn
     // Override for putting spacecraft into a random position
     public override void Teleport ()
     {
-        transform.position = new Vector3(Random.Range(1, 5), Random.Range(1, 5), 0);
+        transform.position = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), 0);
     }
 
     // Override for when the spacecraft shoots

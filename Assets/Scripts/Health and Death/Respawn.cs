@@ -15,6 +15,8 @@ public class Respawn : Death
         Transform transformComponent;
         transformComponent = GetComponent<Transform>();
         transformComponent.position = Vector3.zero;
+
+        Debug.Log("Try Again");
     }
 }
 
