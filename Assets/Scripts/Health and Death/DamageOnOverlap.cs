@@ -25,10 +25,10 @@ public class DamageOnOverlap : MonoBehaviour
         // Get health component from other object
         otherHealth = otherCollider.gameObject.GetComponent<Health>();
         // Does health component exist or maybe object doesn't have health
-        if(otherHealth != null)
+        if(otherHealth != null && otherCollider.gameObject.CompareTag("Player"))
         {
             // Tell health component to take damage
-            otherHealth.TakeDamage( damageDone );
+            otherHealth.TakeDamage( damageDone ); 
         }
         // FIGURE OUT WHY BULLETS WON'T DO DAMAGE - Resolved
     }

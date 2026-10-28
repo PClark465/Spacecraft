@@ -28,4 +28,17 @@ public class Bullet : MonoBehaviour
         
     }
 
+    // Define what the bullet should do when colliding with a trigger
+    public void OnTriggerEnter2D( Collider2D otherCollider )
+    {
+        // Debug.Log("Hit" + otherCollider.gameObject.name);
+        if(otherCollider.GetComponent<Border>() == null)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 }
+
+// Line 31: defining a function
+// Remember: Most of the time is spent defining things in code

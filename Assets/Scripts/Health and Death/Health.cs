@@ -1,21 +1,26 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
     // Establish variables for what health should consist of
     public float currentHealth;
     public float maxHealth;
+    public Image healthBar;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        if(healthBar != null)
+        {
+            healthBar.fillAmount = currentHealth / maxHealth;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     // Function for taking damage as your character
@@ -23,6 +28,10 @@ public class Health : MonoBehaviour
     {
         // Subtract damage from current health, if current health is less than zero, tell pawn to die
         currentHealth = currentHealth - damage;
+        if(healthBar != null)
+        {
+            healthBar.fillAmount = currentHealth / maxHealth;
+        }
         if (currentHealth <= 0)
         {
             currentHealth = 0;

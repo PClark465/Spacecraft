@@ -14,10 +14,14 @@ public class Respawn : Death
 
         Transform transformComponent;
         transformComponent = GetComponent<Transform>();
-        transformComponent.position = Vector3.zero;
+        transformComponent.position = Vector3.zero; // (randomSpawnPosition);
 
         Debug.Log("Try Again");
     }
 }
 
 // transform.position = Vector3.zero;   shorthand version
+
+/*
+
+*/

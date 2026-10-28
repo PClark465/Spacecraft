@@ -27,6 +27,10 @@ public class PawnSpacecraft : Pawn
     // Update is called once per frame
     void Update()
     {
+        Vector3 currentPos = transform.position;
+        float clampedX = Mathf.Clamp(currentPos.x, -21.72f, 21.73f);
+        float clampedY = Mathf.Clamp(currentPos.y, -5.03f, 4.98f);
+        transform.position = new Vector3(clampedX, clampedY, currentPos.z);
         
     }
     

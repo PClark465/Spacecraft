@@ -11,6 +11,10 @@ public class ShooterBullet : Shooter
         if(bulletSpawnPoint != null && bulletPrefab != null)
         {
             Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+            if(GameAudio.instance != null)
+            {
+                GameAudio.instance.PlaySFX(GameAudio.instance.laserShot);
+            }
         } 
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
