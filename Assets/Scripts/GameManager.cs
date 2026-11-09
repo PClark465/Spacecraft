@@ -28,6 +28,13 @@ public class GameManager : MonoBehaviour
     [Header("Enemy Spawning")]
     public int startingEnemyCount;
 
+    [Header("Scoring Setting")]
+    public int winningScore = 1000;
+
+    [Header("Player Lives")]
+    public int startingLives = 3;
+    public int remainingLives;
+
     void Awake ()
     {
         obstacleList = new List<Obstacle>();
@@ -47,6 +54,7 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        AudioListener.pause = false;
         Time.timeScale = 1f;
         for(int i = 0; i < startingEnemyCount;i++)
         {
@@ -56,6 +64,7 @@ public class GameManager : MonoBehaviour
         {
             gameOverPanel.SetActive(false);
         }
+        remainingLives = startingLives;
     }
 
     // Update is called once per frame
@@ -78,7 +87,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Check victory condition
-        if(score >= 250 && !isGameOver)
+        if(score >= winningScore && !isGameOver)
         {
             Victory();
         }
@@ -97,6 +106,7 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
+        
         // Takes into account the random number, invert order
         if(spawnChance <= 20)
         {
@@ -120,11 +130,12 @@ public class GameManager : MonoBehaviour
             return;
         }
         isGameOver = true;
-        Debug.Log("Victory, 250 points");
+        Debug.Log("Victory, 1000 points");
         if(gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
         }
+        StopEnemyAudio();
         Time.timeScale = 0f;
     }
 
@@ -143,11 +154,14 @@ public class GameManager : MonoBehaviour
         {
             gameOverPanel.SetActive(true);
         }
+        StopEnemyAudio();
         Time.timeScale = 0f; // This pauses gameplay
     }
-
+    
+    //Function for restarting the game
     public void RestartGame()
     {
+        AudioListener.pause = false;
         Time.timeScale = 1f;
         score = 0;
         isGameOver = false;
@@ -160,8 +174,10 @@ public class GameManager : MonoBehaviour
         );
     }
 
+    // Function for returning to the main menu
     public void ReturnToMainMenu()
     {
+        AudioListener.pause = false;
         Time.timeScale = 1f;
         score = 0;
         isGameOver = false;
@@ -169,6 +185,107 @@ public class GameManager : MonoBehaviour
 
         obstacleList.Clear();
         SceneManager.LoadScene("MainMenu");
+    }
+
+    // Dictionary created for storing enemy score values
+    private Dictionary<EnemyType, int> enemyScores =
+        new Dictionary<EnemyType, int>()
+    {
+        { EnemyType.Meteor, 10 },
+        { EnemyType.BigMeteor, 25 },
+        { EnemyType.UFO, 50 }
+    };
+
+    // Method used to award points based on the type of enemy destroyed
+    public void AwardEnemyPoints(EnemyType enemyType)
+    {
+        if(enemyScores.TryGetValue(enemyType, out int points))
+        {
+            score += points;
+            if (score >= winningScore)
+            {
+                Victory();
+            }
+            else
+            {
+                SpawnEnemy();
+            }
+        }
+
+    }
+
+    // Creates a list of active enemies into the console window
+    public void CountActiveEnemies()
+    {
+        int meteorCount = 0;
+        int bigMeteorCount = 0;
+        int ufoCount = 0;
+
+        // Examine every enemy in obstacle list
+        foreach (Obstacle obstacle in obstacleList)
+        {
+            if (obstacle == null)
+                continue;
+
+            DeathDestroyManager enemy =
+                obstacle.GetComponent<DeathDestroyManager>();
+
+            if (enemy == null)
+                continue;
+
+            // Count enemies based on type
+            switch (enemy.enemyType)
+            {
+                case EnemyType.Meteor:
+                    meteorCount++;
+                    break;
+
+                case EnemyType.BigMeteor:
+                    bigMeteorCount++;
+                    break;
+
+                case EnemyType.UFO:
+                    ufoCount++;
+                    break;
+            }
+        }
+
+        Debug.Log(
+            "Meteors: " + meteorCount +
+            " | Big Meteors: " + bigMeteorCount +
+            " | UFOs: " + ufoCount
+        );
+    }
+
+    // Function for counting player lives
+    public void PlayerDied()
+    {
+        if (isGameOver)
+            return;
+
+        remainingLives--;
+        if (remainingLives <= 0)
+        {
+            GameOver();
+        }
+    }
+
+    // Method for making sure music audio keeps playing
+    public void StopEnemyAudio()
+    {
+        foreach (Obstacle obstacle in obstacleList)
+        {
+            if (obstacle == null)
+                continue;
+
+            AudioSource[] enemyAudioSources =
+                obstacle.GetComponentsInChildren<AudioSource>();
+
+            foreach (AudioSource source in enemyAudioSources)
+            {
+                source.Stop();
+            }
+        }
     }
 
 }

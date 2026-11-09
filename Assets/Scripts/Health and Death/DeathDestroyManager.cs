@@ -2,27 +2,37 @@ using UnityEngine;
 
 public class DeathDestroyManager : Death
 {
-    public int scoreValue;
+    [Header("Scoring Values")]
+    public EnemyType enemyType;
 
     private Obstacle obstacleToRemoveOnDeath;
+    private bool hasDied = false;
 
-    void Start()
+    void Awake()
     {
         obstacleToRemoveOnDeath = GetComponent<Obstacle>();
     }
 
     public override void Die()
     {
+        // Checks boolean of death to avoid extra points rewarded
+        if(hasDied)
+            return;
+
+        hasDied = true;
+
         if(GameManager.instance != null)
         {
-            if(GameManager.instance.obstacleList != null)
-            {
-                GameManager.instance.obstacleList.Remove(obstacleToRemoveOnDeath);
-            }
+            // Removes obstacle from list when destroyed
+            GameManager.instance.obstacleList.Remove(
+                obstacleToRemoveOnDeath
+            );
+            GameManager.instance.CountActiveEnemies();
+            // Adds points to the total score based on enemy
+            GameManager.instance.AwardEnemyPoints(enemyType);
 
-            GameManager.instance.score += scoreValue;
-            GameManager.instance.SpawnEnemy();
         }
+        // Plays explosion audio
         if(GameAudio.instance != null)
         {
             GameAudio.instance.PlaySFXAtPoint(

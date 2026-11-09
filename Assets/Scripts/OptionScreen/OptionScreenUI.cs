@@ -4,8 +4,10 @@ using UnityEngine.Audio;
 
 public class OptionScreenUI : MonoBehaviour
 {
+    [Header("Audio Mixer")]
     public AudioMixer mainAudioMixer;
     
+    [Header("Volume Sliders")]
     public Slider mainMasterSlider;
     public Slider musicVolumeSlider;
     public Slider SFXVolumeSlider;
@@ -13,71 +15,59 @@ public class OptionScreenUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        OnMainVolumeChange();
-        OnMusicVolumeChange();
-        OnSFXVolumeChange();
+        // Previously saved volumes load
+        float masterVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);  // Retrieves saved value
+        float musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
+        float sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 1f);
+
+        // Update sliders without event triggers
+        mainMasterSlider.SetValueWithoutNotify(masterVolume);
+        musicVolumeSlider.SetValueWithoutNotify(musicVolume);
+        SFXVolumeSlider.SetValueWithoutNotify(sfxVolume);
+
+        // Apply loaded volumes
+        ApplyVolume("MasterVolume", masterVolume);
+        ApplyVolume("BackgroundMusicVolume", musicVolume);
+        ApplyVolume("SFXVolume", sfxVolume);
     }
 
     public void OnMainVolumeChange ()
     {
-        // Starts with slider value
-        float newVolume = mainMasterSlider.value;
-        if(newVolume <= 0)
-        {
-            // If 0, set volume to lowest value
-            newVolume = -80;
-        }
-        else
-        {
-            // Greater than 0, find log10 value, and make it in the 0 - 20 decibel range
-            newVolume = Mathf.Log10(newVolume);
-            newVolume = newVolume * 20;
-        }
-        // Set volume to the new setting
-        mainAudioMixer.SetFloat("MasterVolume", newVolume);
+        float volume = mainMasterSlider.value;
+
+        ApplyVolume("MasterVolume", volume);
+
+        PlayerPrefs.SetFloat("MasterVolume", volume);   // Stores selected value
+        PlayerPrefs.Save(); // Writes to storage
     }
 
     public void OnMusicVolumeChange ()
     {
-        // Starts with slider value
-        float newVolume = musicVolumeSlider.value;
-        if(newVolume <= 0)
-        {
-            // If 0, set volume to lowest value
-            newVolume = -80;
-        }
-        else
-        {
-            // Greater than 0, find log10 value, and make it in the 0 - 20 decibel range
-            newVolume = Mathf.Log10(newVolume);
-            newVolume = newVolume * 20;
-        }
-        // Set volume to the new setting
-        mainAudioMixer.SetFloat("BackgroundMusicVolume", newVolume);
+        float volume = musicVolumeSlider.value;
+
+        ApplyVolume("BackgroundMusicVolume", volume);
+
+        PlayerPrefs.SetFloat("MusicVolume", volume);
+        PlayerPrefs.Save();
     }
 
     public void OnSFXVolumeChange ()
     {
-        // Starts with slider value
-        float newVolume = SFXVolumeSlider.value;
-        if(newVolume <= 0)
-        {
-            // If 0, set volume to lowest value
-            newVolume = -80;
-        }
-        else
-        {
-            // Greater than 0, find log10 value, and make it in the 0 - 20 decibel range
-            newVolume = Mathf.Log10(newVolume);
-            newVolume = newVolume * 20;
-        }
-        // Set volume to the new setting
-        mainAudioMixer.SetFloat("SFXVolume", newVolume);
+        float volume = SFXVolumeSlider.value;
+
+        ApplyVolume("SFXVolume", volume);
+
+        PlayerPrefs.SetFloat("SFXVolume", volume);
+        PlayerPrefs.Save();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ApplyVolume(string parameter, float volume)
     {
-        
+        // Converts slider value (0-1) to decibels
+        float decibels = volume <= 0.0001f
+            ? -80f
+            : Mathf.Log10(volume) * 20f;
+
+        mainAudioMixer.SetFloat(parameter, decibels);
     }
 }

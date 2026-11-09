@@ -1307,7 +1307,8 @@ MonoBehaviour:
   ufoPrefab: {fileID: 7226113174743623963, guid: be41c71790715d344b1b306285f5712f, type: 3}
   meteorPrefab: {fileID: 7228205127288086135, guid: 2fb69f31cef35ce4c88998338b5fddd2, type: 3}
   gameOverPanel: {fileID: 160861044}
-  startingEnemyCount: 4
+  startingEnemyCount: 5
+  winningScore: 1000
 --- !u!4 &1194768399
 Transform:
   m_ObjectHideFlags: 0
